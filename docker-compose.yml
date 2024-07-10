@@ -1,12 +1,14 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
-    build: .
-    container_name: foraminifera-recognition
+  backend:
+    build:
+        context: .
+        dockerfile: ./dockerfiles.backend
+    container_name: backend
     ports:
-      - "5000:5000"
+        - "5000:5000"
     volumes:
-      - .:/app
+        - ./backend:/app
     environment:
-      - FLASK_ENV=development
+        - FLASK_ENV=development
