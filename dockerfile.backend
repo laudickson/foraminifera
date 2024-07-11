@@ -1,13 +1,25 @@
 # Use the official Python 3.12 base image
 FROM python:3.12-slim
 
+# Set the working directory
 WORKDIR /app
-RUN apt-get update && \
-    apt-get install -y python3-pyqt5 && \
-    apt-get install -y libgl1-mesa-glx
 
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y python3-pyqt5 libgl1-mesa-glx && \
+    apt-get clean
+
+# Copy the requirements file to the working directory
 COPY requirements.txt .
+
+# Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-CMD ["python", "backend/app.py"]
+
+# Copy the rest of the backend code to the working directory
+COPY backend/ .
+
+# Expose the port the app runs on
 EXPOSE 5000
+
+# Command to run the Flask app
+CMD ["python", "app.py"]
